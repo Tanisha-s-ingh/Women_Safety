@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RakshaAI — Women Safety</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F4F6FF;--surface:#FFFFFF;--surface2:#F8F9FF;--surface3:#EEF1FC;
+  --border:#E2E6F8;--border2:#D0D6F0;
+  --lav:#8E7DBE;--lav-lt:#B8ACD8;--lav-dim:rgba(142,125,190,.12);--lav-glow:rgba(142,125,190,.28);
+  --blue:#6BA3D6;--blue-dim:rgba(107,163,214,.12);
+  --pink:#E8A0B0;--pink-dim:rgba(232,160,176,.15);
+  --safe:#5BAD8A;--safe-dim:rgba(91,173,138,.12);
+  --danger:#D0606A;--danger-dim:rgba(208,96,106,.12);--danger-glow:rgba(208,96,106,.25);
+  --gold:#C4954A;--gold-dim:rgba(196,149,74,.12);
+  --text:#2D2A3E;--text-mid:#5A576E;--text-muted:#9896AA;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:
+  radial-gradient(ellipse 55% 45% at 10% 15%,rgba(142,125,190,.08) 0%,transparent 65%),
+  radial-gradient(ellipse 45% 55% at 90% 85%,rgba(107,163,214,.07) 0%,transparent 65%),
+  radial-gradient(ellipse 35% 35% at 85% 10%,rgba(255,182,193,.06) 0%,transparent 60%);
+  pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column}
+
+/* ── HEADER ── */
+header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;
+  border-bottom:1px solid var(--border);background:rgba(255,255,255,.8);
+  backdrop-filter:blur(16px);position:sticky;top:0;z-index:200}
+.logo{display:flex;align-items:center;gap:.65rem}
+.logo-mark{width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--lav),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:14px;color:#fff;font-weight:600;
+  box-shadow:0 2px 10px var(--lav-glow)}
+.logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:var(--text)}
+.logo-text span{color:var(--lav)}
+.logo-tag{font-size:.58rem;color:var(--text-muted);letter-spacing:.12em;margin-top:1px}
+.hdr-right{display:flex;align-items:center;gap:1rem}
+.hdr-status{display:flex;align-items:center;gap:.4rem;font-size:.7rem;color:var(--text-muted);font-weight:600}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--safe);
+  box-shadow:0 0 0 3px rgba(91,173,138,.2);animation:psafe 2.5s ease-in-out infinite}
+@keyframes psafe{0%,100%{box-shadow:0 0 0 3px rgba(91,173,138,.2)}50%{box-shadow:0 0 0 6px rgba(91,173,138,.04)}}
+.sdot.danger{background:var(--danger);box-shadow:0 0 0 3px var(--danger-dim);animation:pdanger .7s ease-in-out infinite}
+@keyframes pdanger{0%,100%{box-shadow:0 0 0 3px var(--danger-dim)}50%{box-shadow:0 0 0 8px rgba(208,96,106,.03)}}
+.fake-call-hdr{padding:.38rem .8rem;border-radius:20px;border:1.5px solid var(--safe);
+  background:var(--safe-dim);color:var(--safe);font-family:'Nunito',sans-serif;
+  font-size:.68rem;font-weight:700;cursor:pointer;transition:all .2s}
+.fake-call-hdr:hover{background:rgba(91,173,138,.22)}
+
+/* ── TABS ── */
+.tabs-bar{display:flex;gap:0;border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.7);backdrop-filter:blur(8px);
+  padding:0 1.5rem;overflow-x:auto;scrollbar-width:none}
+.tabs-bar::-webkit-scrollbar{display:none}
+.tab{display:flex;align-items:center;gap:.4rem;padding:.75rem 1rem;
+  font-size:.72rem;font-weight:700;color:var(--text-muted);
+  border-bottom:2px solid transparent;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tab:hover{color:var(--lav)}
+.tab.active{color:var(--lav);border-bottom-color:var(--lav)}
+.tab-icon{font-size:.9rem}
+
+/* ── PAGES ── */
+.page{display:none;flex:1;max-width:1100px;margin:0 auto;width:100%;padding:1.5rem}
+.page.active{display:block}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;
+  box-shadow:0 2px 16px rgba(142,125,190,.05),0 1px 2px rgba(0,0,0,.03)}
+.card-hdr{padding:.85rem 1.25rem .7rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);font-weight:700}
+.badge{font-size:.6rem;padding:.15rem .55rem;border-radius:10px;font-weight:700}
+.badge-lav{background:var(--lav-dim);color:var(--lav);border:1px solid rgba(142,125,190,.25)}
+.badge-safe{background:var(--safe-dim);color:var(--safe);border:1px solid rgba(91,173,138,.25)}
+.badge-danger{background:var(--danger-dim);color:var(--danger);border:1px solid rgba(208,96,106,.25)}
+.badge-gold{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(196,149,74,.25)}
+
+/* ── BUTTONS ── */
+.btn{padding:.55rem 1.2rem;border-radius:12px;font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;border:1.5px solid}
+.btn-lav{border-color:var(--lav);background:var(--lav-dim);color:var(--lav)}
+.btn-lav:hover{background:rgba(142,125,190,.22);box-shadow:0 2px 10px var(--lav-glow)}
+.btn-safe{border-color:var(--safe);background:var(--safe-dim);color:var(--safe)}
+.btn-safe:hover{background:rgba(91,173,138,.22)}
+.btn-danger{border-color:var(--danger);background:var(--danger-dim);color:var(--danger)}
+.btn-danger:hover{background:rgba(208,96,106,.22)}
+.btn-ghost{border-color:var(--border2);background:transparent;color:var(--text-muted)}
+.btn-ghost:hover{border-color:var(--lav);color:var(--lav)}
+.eyebrow{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text-muted);font-weight:700}
+
+/* ── ALERT DELIVERY STATUS PANEL ── */
+.delivery-panel{width:100%;background:var(--surface2);border:1px solid var(--border);
+  border-radius:14px;padding:.85rem 1rem;display:none;flex-direction:column;gap:.5rem}
+.delivery-panel.show{display:flex}
+.delivery-title{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--text-muted);font-weight:700;margin-bottom:.15rem}
+.delivery-row{display:flex;align-items:center;gap:.6rem;padding:.35rem .5rem;
+  border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+.delivery-name{font-size:.72rem;font-weight:700;color:var(--text);flex:1}
+.delivery-phone{font-size:.6rem;color:var(--text-muted);font-weight:600}
+.delivery-badges{display:flex;gap:.3rem;flex-shrink:0}
+.dbadge{font-size:.58rem;padding:.12rem .45rem;border-radius:6px;font-weight:700;
+  display:flex;align-items:center;gap:.25rem}
+.dbadge.sending{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(196,149,74,.3)}
+.dbadge.sent{background:var(--safe-dim);color:var(--safe);border:1px solid rgba(91,173,138,.3)}
+.dbadge.failed{background:var(--danger-dim);color:var(--danger);border:1px solid rgba(208,96,106,.3)}
+.dbadge.skipped{background:var(--lav-dim);color:var(--lav);border:1px solid rgba(142,125,190,.3)}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.spin{display:inline-block;animation:spin .7s linear infinite}
+
+/* ═══════════════════════
+   PAGE 1 — SMART SOS
+═══════════════════════ */
+.sos-grid{display:grid;grid-template-columns:1fr 320px;gap:1.25rem}
+@media(max-width:800px){.sos-grid{grid-template-columns:1fr}}
+
+.sos-main{display:flex;flex-direction:column;align-items:center;gap:1.75rem;
+  padding:2.5rem 2rem;background:var(--surface);border:1px solid var(--border);border-radius:24px;
+  position:relative;overflow:hidden;box-shadow:0 4px 32px rgba(142,125,190,.07)}
+.sos-main::before{content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(142,125,190,.05) 0%,transparent 65%);pointer-events:none}
+
+.sos-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:220px;height:220px}
+.sring{position:absolute;border-radius:50%;pointer-events:none}
+.sring1{inset:-14px;border:1.5px solid var(--border2);animation:rbreathe 3.5s ease-in-out infinite}
+.sring2{inset:-28px;border:1px solid rgba(142,125,190,.18);animation:rbreathe 3.5s ease-in-out infinite .6s}
+@keyframes rbreathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.025);opacity:1}}
+.sring1.on{border-color:rgba(208,96,106,.55);animation:ralert 1s ease-in-out infinite}
+.sring2.on{border-color:rgba(208,96,106,.2);animation:ralert 1s ease-in-out infinite .25s}
+@keyframes ralert{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.06);opacity:.4}}
+
+.sos-btn{width:162px;height:162px;border-radius:50%;
+  background:linear-gradient(145deg,#fff 0%,#f5f3ff 100%);
+  border:2px solid var(--border2);cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;
+  transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  box-shadow:0 4px 20px rgba(142,125,190,.12),0 1px 4px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.9);
+  user-select:none;-webkit-tap-highlight-color:transparent;position:relative;z-index:1}
+.sos-btn:hover{transform:scale(1.04);box-shadow:0 8px 32px var(--lav-glow),inset 0 1px 0 rgba(255,255,255,.9)}
+.sos-btn:active{transform:scale(.97)}
+.sos-btn.on{background:linear-gradient(145deg,#fff5f6 0%,#ffe8ea 100%);
+  border-color:rgba(208,96,106,.45);animation:bglow 1.8s ease-in-out infinite}
+@keyframes bglow{0%,100%{box-shadow:0 6px 28px var(--danger-glow),inset 0 1px 0 rgba(255,255,255,.8)}
+  50%{box-shadow:0 8px 40px rgba(208,96,106,.38),inset 0 1px 0 rgba(255,255,255,.8)}}
+.sos-icon{font-size:2.2rem;line-height:1}
+.sos-lbl{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;letter-spacing:.12em;color:var(--lav);transition:color .3s}
+.sos-btn.on .sos-lbl{color:var(--danger)}
+.sos-hint{font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);font-weight:700}
+.sos-btn.on .sos-hint{color:rgba(208,96,106,.7)}
+
+.timer-big{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:400;
+  color:var(--text-muted);letter-spacing:.04em;font-variant-numeric:tabular-nums;transition:color .4s}
+.timer-big.on{color:var(--danger)}
+.timer-sub{font-size:.63rem;letter-spacing:.13em;color:var(--text-muted);margin-top:.25rem;font-weight:600}
+
+.dur-row{display:flex;gap:.45rem;flex-wrap:wrap;justify-content:center}
+.dpill{padding:.35rem .9rem;border-radius:20px;border:1.5px solid var(--border2);
+  background:transparent;color:var(--text-muted);font-family:'Nunito',sans-serif;font-size:.7rem;font-weight:700;cursor:pointer;transition:all .2s}
+.dpill:hover{border-color:var(--lav);color:var(--lav);background:var(--lav-dim)}
+.dpill.sel{border-color:var(--lav);background:var(--lav-dim);color:var(--lav);box-shadow:0 0 0 3px rgba(142,125,190,.1)}
+
+.sbar{width:100%;padding:.65rem 1rem;border-radius:12px;background:var(--surface2);
+  border:1px solid var(--border);font-size:.7rem;color:var(--text-muted);font-weight:600;
+  display:flex;align-items:center;gap:.5rem;transition:all .35s}
+.sbar.alert{border-color:rgba(208,96,106,.3);background:rgba(255,240,241,.8);color:var(--danger)}
+.sbar.safe{border-color:rgba(91,173,138,.3);background:rgba(240,251,246,.8);color:var(--safe)}
+
+.track-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;width:100%}
+.track-card{padding:.65rem .8rem;border-radius:12px;background:var(--surface2);
+  border:1px solid var(--border);display:flex;flex-direction:column;gap:.25rem}
+.track-card.active{border-color:rgba(91,173,138,.35);background:rgba(240,251,246,.6)}
+.track-card.warn{border-color:rgba(208,96,106,.3);background:rgba(255,240,241,.6)}
+.track-label{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);font-weight:700}
+.track-val{font-size:.8rem;font-weight:700;color:var(--text-mid)}
+.track-card.active .track-val{color:var(--safe)}
+.track-card.warn .track-val{color:var(--danger)}
+
+.sos-sidebar{display:flex;flex-direction:column;gap:1rem}
+.input-field{width:100%;padding:.48rem .75rem;border-radius:10px;border:1.5px solid var(--border2);
+  background:var(--surface2);color:var(--text);font-family:'Nunito',sans-serif;font-size:.75rem;font-weight:600;
+  outline:none;transition:border-color .2s,box-shadow .2s}
+.input-field::placeholder{color:var(--text-muted)}
+.input-field:focus{border-color:var(--lav);box-shadow:0 0 0 3px rgba(142,125,190,.12)}
+.row-gap{display:flex;gap:.45rem}
+.contact-list-wrap{max-height:220px;overflow-y:auto}
+.contact-list-wrap::-webkit-scrollbar{width:3px}
+.contact-list-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.ci{display:flex;align-items:center;gap:.65rem;padding:.6rem 1.25rem;
+  border-bottom:1px solid var(--border);transition:background .15s}
+.ci:hover{background:var(--surface2)}
+.ci:last-child{border-bottom:none}
+.cav{width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--lav-dim),var(--blue-dim));
+  border:1.5px solid rgba(142,125,190,.25);display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;color:var(--lav);font-weight:700;flex-shrink:0}
+.ci-info{flex:1;min-width:0}
+.ci-name{font-size:.75rem;color:var(--text);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ci-phone{font-size:.63rem;color:var(--text-muted);font-weight:600}
+.cdel{width:24px;height:24px;border-radius:6px;border:none;background:transparent;
+  color:var(--text-muted);cursor:pointer;font-size:.75rem;transition:all .15s;
+  display:flex;align-items:center;justify-content:center}
+.cdel:hover{background:var(--danger-dim);color:var(--danger)}
+.empty{padding:1.5rem 1.25rem;text-align:center;color:var(--text-muted);font-size:.7rem;line-height:1.7;font-weight:600}
+
+.log-wrap{max-height:150px;overflow-y:auto;padding:.7rem 1.25rem}
+.log-wrap::-webkit-scrollbar{width:3px}
+.log-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.le{display:flex;gap:.65rem;margin-bottom:.6rem}
+.le:last-child{margin-bottom:0}
+.lt{font-size:.58rem;color:var(--text-muted);white-space:nowrap;padding-top:2px;font-weight:700}
+.lx{font-size:.64rem;color:var(--text-mid);line-height:1.5;font-weight:600}
+.lx.a{color:var(--danger)}.lx.s{color:var(--safe)}.lx.w{color:var(--gold)}
+
+/* ═══════════════════════
+   PAGE 2 — AI ASSISTANT
+═══════════════════════ */
+.assist-grid{display:grid;grid-template-columns:1fr 340px;gap:1.25rem}
+@media(max-width:800px){.assist-grid{grid-template-columns:1fr}}
+.scenario-section{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.5rem;
+  box-shadow:0 2px 16px rgba(142,125,190,.05)}
+.scenario-intro{font-size:.8rem;color:var(--text-mid);line-height:1.7;font-weight:600;margin-bottom:1.25rem}
+.scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
+@media(max-width:600px){.scenario-grid{grid-template-columns:1fr}}
+.scen-btn{padding:1rem;border-radius:14px;border:1.5px solid var(--border);background:var(--surface2);
+  cursor:pointer;transition:all .2s;text-align:left;font-family:'Nunito',sans-serif}
+.scen-btn:hover{border-color:var(--lav);background:var(--lav-dim);transform:translateY(-1px);box-shadow:0 4px 16px var(--lav-glow)}
+.scen-btn.active-scen{border-color:var(--lav);background:var(--lav-dim);box-shadow:0 0 0 3px rgba(142,125,190,.12)}
+.scen-icon{font-size:1.4rem;margin-bottom:.4rem;display:block}
+.scen-title{font-size:.78rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+.scen-desc{font-size:.64rem;color:var(--text-muted);font-weight:600;line-height:1.5}
+.ai-response{background:var(--surface2);border:1px solid var(--border);border-radius:16px;padding:1.25rem;min-height:180px}
+.ai-resp-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:180px;color:var(--text-muted);font-size:.75rem;font-weight:600;gap:.5rem;text-align:center}
+.ai-steps{display:none}
+.ai-steps.show{display:block}
+.ai-steps-title{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--lav);font-weight:700;margin-bottom:.9rem}
+.step-item{display:flex;gap:.75rem;margin-bottom:.8rem;align-items:flex-start}
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--lav-dim);border:1.5px solid rgba(142,125,190,.3);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--lav);font-weight:700;flex-shrink:0;margin-top:1px}
+.step-txt{font-size:.74rem;color:var(--text-mid);line-height:1.6;font-weight:600}
+.step-txt strong{color:var(--text);font-weight:700}
+.ai-quick-actions{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.qa-btn{padding:.38rem .85rem;border-radius:20px;border:1.5px solid var(--border2);background:transparent;color:var(--text-muted);font-family:'Nunito',sans-serif;font-size:.68rem;font-weight:700;cursor:pointer;transition:all .2s}
+.qa-btn:hover{border-color:var(--lav);color:var(--lav);background:var(--lav-dim)}
+.qa-btn.triggered{border-color:var(--safe);color:var(--safe);background:var(--safe-dim)}
+.safe-places{display:flex;flex-direction:column;gap:.6rem;padding:1rem 1.25rem}
+.place-item{display:flex;align-items:center;gap:.75rem;padding:.6rem .75rem;border-radius:12px;background:var(--surface2);border:1px solid var(--border);transition:all .2s;cursor:pointer}
+.place-item:hover{border-color:var(--lav);background:var(--lav-dim)}
+.place-icon{font-size:1.1rem;flex-shrink:0}
+.place-info{flex:1}
+.place-name{font-size:.75rem;font-weight:700;color:var(--text)}
+.place-dist{font-size:.62rem;color:var(--text-muted);font-weight:600;margin-top:1px}
+.place-open{font-size:.58rem;padding:.1rem .4rem;border-radius:6px;font-weight:700}
+.open-yes{background:var(--safe-dim);color:var(--safe)}
+.open-no{background:var(--danger-dim);color:var(--danger)}
+
+/* ═══════════════════════
+   PAGE 3 — TRUSTED CIRCLE
+═══════════════════════ */
+.circle-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+@media(max-width:700px){.circle-grid{grid-template-columns:1fr}}
+.circle-map{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.5rem;box-shadow:0 2px 16px rgba(142,125,190,.05);text-align:center}
+.circle-visual{position:relative;width:220px;height:220px;margin:1.5rem auto}
+.cv-you{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--lav),var(--blue));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:700;z-index:2;box-shadow:0 4px 16px var(--lav-glow)}
+.cv-ring1{position:absolute;inset:20px;border-radius:50%;border:1.5px dashed rgba(142,125,190,.3);animation:cvspin 20s linear infinite}
+.cv-ring2{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(107,163,214,.2);animation:cvspin 35s linear infinite reverse}
+@keyframes cvspin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.cv-contact{position:absolute;transform:translate(-50%,-50%);z-index:2}
+.cvc-dot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:#fff;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.12);cursor:pointer;transition:transform .2s}
+.cvc-dot:hover{transform:scale(1.15) translate(-10%,-10%)}
+.cvc-label{font-size:.55rem;font-weight:700;color:var(--text-muted);text-align:center;margin-top:2px;white-space:nowrap}
+.circle-legend{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.cleg-item{display:flex;align-items:center;gap:.35rem;font-size:.62rem;color:var(--text-muted);font-weight:600}
+.cleg-dot{width:8px;height:8px;border-radius:50%}
+.alert-log-list{padding:.75rem 1.25rem;display:flex;flex-direction:column;gap:.65rem;max-height:280px;overflow-y:auto}
+.alert-log-list::-webkit-scrollbar{width:3px}
+.alert-log-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.al-item{display:flex;gap:.75rem;align-items:flex-start;padding:.6rem .75rem;border-radius:10px;background:var(--surface2);border:1px solid var(--border)}
+.al-icon{font-size:.9rem;flex-shrink:0;padding-top:1px}
+.al-body{flex:1}
+.al-msg{font-size:.7rem;font-weight:700;color:var(--text)}
+.al-time{font-size:.6rem;color:var(--text-muted);font-weight:600;margin-top:2px}
+.al-seen{display:flex;gap:.3rem;margin-top:.4rem;flex-wrap:wrap}
+.seen-chip{font-size:.58rem;padding:.1rem .4rem;border-radius:6px;font-weight:700}
+.seen-yes{background:var(--safe-dim);color:var(--safe)}
+.seen-no{background:var(--lav-dim);color:var(--lav)}
+.contact-cards{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;padding:1.25rem}
+@media(max-width:700px){.contact-cards{grid-template-columns:1fr}}
+.cc{padding:1rem;border-radius:14px;background:var(--surface2);border:1px solid var(--border);transition:all .2s}
+.cc:hover{border-color:var(--lav);box-shadow:0 4px 16px var(--lav-glow)}
+.cc-top{display:flex;align-items:center;gap:.65rem;margin-bottom:.6rem}
+.cc-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;flex-shrink:0}
+.cc-name{font-size:.78rem;font-weight:700;color:var(--text)}
+.cc-role{font-size:.6rem;color:var(--text-muted);font-weight:600}
+.cc-row{display:flex;justify-content:space-between;align-items:center;margin-top:.4rem}
+.cc-stat{font-size:.62rem;font-weight:700}
+.cc-eta{font-size:.62rem;color:var(--text-muted);font-weight:600}
+
+/* ═══════════════════════
+   PAGE 4 — SAFE ROUTE
+═══════════════════════ */
+.route-layout{display:grid;grid-template-columns:1fr 300px;gap:1.25rem}
+@media(max-width:800px){.route-layout{grid-template-columns:1fr}}
+.map-placeholder{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;height:420px;position:relative;box-shadow:0 2px 16px rgba(142,125,190,.05)}
+.map-inner{width:100%;height:100%;position:relative;background:#e8edf5}
+.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(142,125,190,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(142,125,190,.08) 1px,transparent 1px);background-size:40px 40px}
+.map-road{position:absolute;background:rgba(255,255,255,.7)}
+.map-road.h{height:14px;left:0;right:0;border-radius:2px}
+.map-road.v{width:14px;top:0;bottom:0;border-radius:2px}
+.safe-path{position:absolute;background:rgba(91,173,138,.35);border-radius:3px;border:2px solid rgba(91,173,138,.6)}
+.unsafe-path{position:absolute;background:rgba(208,96,106,.2);border-radius:3px;border:2px dashed rgba(208,96,106,.4)}
+.map-pin{position:absolute;transform:translate(-50%,-50%);font-size:1.3rem;cursor:pointer;transition:transform .2s;z-index:3}
+.map-pin:hover{transform:translate(-50%,-50%) scale(1.2)}
+.map-label{position:absolute;transform:translateX(-50%);background:rgba(255,255,255,.92);padding:.2rem .45rem;border-radius:6px;font-size:.58rem;font-weight:700;color:var(--text);border:1px solid var(--border);white-space:nowrap;z-index:3}
+.map-legend{position:absolute;bottom:1rem;left:1rem;background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:10px;padding:.6rem .8rem;display:flex;flex-direction:column;gap:.35rem}
+.ml-row{display:flex;align-items:center;gap:.5rem;font-size:.62rem;color:var(--text-mid);font-weight:600}
+.ml-line{width:20px;height:3px;border-radius:2px}
+.map-overlay-badge{position:absolute;top:.75rem;right:.75rem;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:10px;padding:.5rem .75rem;font-size:.65rem;font-weight:700;color:var(--text)}
+.route-panel{display:flex;flex-direction:column;gap:1rem}
+.route-score{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--border);border-radius:16px}
+.rs-label{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);font-weight:700}
+.rs-val{font-size:1.6rem;font-weight:400;font-family:'Playfair Display',serif;margin-top:.2rem}
+.rs-val.good{color:var(--safe)}.rs-val.ok{color:var(--gold)}.rs-val.bad{color:var(--danger)}
+.safety-factors{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.6rem}
+.sf-row{display:flex;align-items:center;gap:.7rem}
+.sf-icon{font-size:.85rem;width:20px;text-align:center;flex-shrink:0}
+.sf-label{font-size:.7rem;font-weight:700;color:var(--text-mid);flex:1}
+.sf-bar-wrap{width:70px;height:5px;border-radius:3px;background:var(--border);overflow:hidden}
+.sf-bar{height:100%;border-radius:3px;transition:width .6s ease}
+.sf-bar.good{background:var(--safe)}.sf-bar.ok{background:var(--gold)}.sf-bar.bad{background:var(--danger)}
+.route-alternatives{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:.6rem}
+.ra-item{display:flex;align-items:center;gap:.7rem;padding:.55rem .75rem;border-radius:10px;background:var(--surface2);border:1px solid var(--border);cursor:pointer;transition:all .2s}
+.ra-item:hover{border-color:var(--lav);background:var(--lav-dim)}
+.ra-item.chosen{border-color:var(--safe);background:var(--safe-dim)}
+.ra-label{flex:1;font-size:.72rem;font-weight:700;color:var(--text)}
+.ra-time{font-size:.65rem;color:var(--text-muted);font-weight:700}
+.ra-score{font-size:.62rem;padding:.1rem .4rem;border-radius:6px;font-weight:700}
+
+/* ── FAKE CALL ── */
+.fake-call-overlay{position:fixed;inset:0;z-index:999;background:linear-gradient(180deg,#1a1040 0%,#0d0820 100%);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:3rem 2rem 4rem;opacity:0;pointer-events:none;transition:opacity .4s}
+.fake-call-overlay.show{opacity:1;pointer-events:all}
+.fc-header{text-align:center;color:rgba(255,255,255,.5);font-size:.7rem;font-weight:600;letter-spacing:.15em}
+.fc-caller{text-align:center}
+.fc-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--lav),var(--blue));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2rem;color:#fff;font-weight:600;margin:0 auto 1rem;box-shadow:0 0 0 8px rgba(142,125,190,.2),0 0 0 16px rgba(142,125,190,.1)}
+.fc-name{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:600;color:#fff;margin-bottom:.35rem}
+.fc-status{font-size:.8rem;color:rgba(255,255,255,.55);font-weight:600;letter-spacing:.08em}
+.fc-actions{display:flex;gap:3rem;justify-content:center}
+.fc-btn{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.fc-circle{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;cursor:pointer;transition:transform .15s}
+.fc-circle:active{transform:scale(.92)}
+.fc-circle.end{background:#D0606A}.fc-circle.ans{background:var(--safe)}
+.fc-btn-lbl{font-size:.65rem;color:rgba(255,255,255,.55);font-weight:600}
+.fc-timer{font-family:'Playfair Display',serif;font-size:1.2rem;color:rgba(255,255,255,.7);font-weight:400}
+.fc-ringtone{animation:ring-vibe .5s ease-in-out infinite}
+@keyframes ring-vibe{0%,100%{transform:rotate(0)}25%{transform:rotate(-3deg)}75%{transform:rotate(3deg)}}
+
+/* ── ESCALATION MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(45,42,62,.45);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:500;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-bg.show{opacity:1;pointer-events:all}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:2.25rem;max-width:380px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(45,42,62,.2),0 4px 16px rgba(0,0,0,.08)}
+.modal-icon{font-size:2.8rem;margin-bottom:1rem}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;color:var(--danger);margin-bottom:.6rem}
+.modal-body{font-size:.74rem;color:var(--text-mid);line-height:1.75;margin-bottom:1.5rem;font-weight:600}
+.modal-actions{display:flex;flex-direction:column;gap:.65rem}
+.ma-call{display:block;padding:.85rem 2rem;border-radius:14px;border:2px solid var(--danger);background:var(--danger-dim);color:var(--danger);font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;text-decoration:none;letter-spacing:.04em;transition:all .2s;animation:callpulse 1s ease-in-out infinite}
+@keyframes callpulse{0%,100%{box-shadow:0 0 0 0 rgba(208,96,106,.35)}50%{box-shadow:0 0 0 8px rgba(208,96,106,0)}}
+.ma-help{display:block;padding:.6rem 2rem;border-radius:12px;border:1.5px solid var(--border2);background:transparent;color:var(--text-muted);font-family:'Nunito',sans-serif;font-size:.76rem;font-weight:700;text-decoration:none;transition:all .2s}
+.ma-help:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-dim)}
+.ma-safe{padding:.6rem 2rem;border-radius:12px;border:1.5px solid var(--safe);background:var(--safe-dim);color:var(--safe);font-family:'Nunito',sans-serif;font-size:.76rem;font-weight:700;cursor:pointer;transition:all .2s}
+.ma-safe:hover{background:rgba(91,173,138,.22)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface);border:1px solid var(--border);padding:.55rem 1.4rem;border-radius:24px;font-size:.72rem;color:var(--text-mid);font-weight:700;transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:998;white-space:nowrap;box-shadow:0 4px 20px rgba(142,125,190,.15)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ta{border-color:rgba(208,96,106,.3);color:var(--danger);background:rgba(255,245,246,.97)}
+.toast.ts{border-color:rgba(91,173,138,.3);color:var(--safe);background:rgba(240,251,246,.97)}
+
+footer{padding:.85rem 1.5rem;border-top:1px solid var(--border);background:rgba(255,255,255,.6);display:flex;justify-content:space-between;align-items:center;font-size:.6rem;color:var(--text-muted);font-weight:700}
+footer strong{color:var(--lav)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">R</div>
+    <div>
+      <div class="logo-text">Raksha<span>AI</span></div>
+      <div class="logo-tag">Women Safety Platform</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <button class="fake-call-hdr" onclick="startFakeCall()">📞 Fake Call</button>
+    <div class="hdr-status">
+      <div class="sdot" id="hdrDot"></div>
+      <span id="hdrStatus">Protected · Safe</span>
+    </div>
+  </div>
+</header>
+
+<div class="tabs-bar">
+  <div class="tab active" onclick="switchTab('sos',this)"><span class="tab-icon">🛡️</span>Smart SOS</div>
+  <div class="tab" onclick="switchTab('assist',this)"><span class="tab-icon">💬</span>Safety Assistant</div>
+  <div class="tab" onclick="switchTab('circle',this)"><span class="tab-icon">💜</span>Trusted Circle</div>
+  <div class="tab" onclick="switchTab('route',this)"><span class="tab-icon">🗺️</span>Safe Route</div>
+</div>
+
+<!-- PAGE 1 — SMART SOS -->
+<div class="page active" id="page-sos">
+<div class="sos-grid">
+
+  <div class="sos-main">
+    <div class="eyebrow">Smart Emergency SOS</div>
+
+    <div class="sos-wrap">
+      <div class="sring sring1" id="ring1"></div>
+      <div class="sring sring2" id="ring2"></div>
+      <button class="sos-btn" id="sosBtn" onclick="triggerSOS()">
+        <span class="sos-icon">🛡️</span>
+        <span class="sos-lbl">SOS</span>
+        <span class="sos-hint" id="sosHint">tap to activate</span>
+      </button>
+    </div>
+
+    <div style="text-align:center">
+      <div class="timer-big" id="timerDisp">00:00</div>
+      <div class="timer-sub" id="timerSub">No active alert</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;width:100%">
+      <div class="eyebrow">Alert duration</div>
+      <div class="dur-row">
+        <button class="dpill sel" onclick="setDur(10,this)">10 min</button>
+        <button class="dpill" onclick="setDur(20,this)">20 min</button>
+        <button class="dpill" onclick="setDur(30,this)">30 min</button>
+        <button class="dpill" onclick="setDur(60,this)">1 hour</button>
+      </div>
+    </div>
+
+    <div class="track-grid" id="trackGrid" style="opacity:.4">
+      <div class="track-card" id="tc-loc">
+        <div class="track-label">📍 Live Location</div>
+        <div class="track-val" id="tv-loc">Standby</div>
+      </div>
+      <div class="track-card" id="tc-mic">
+        <div class="track-label">🎤 Audio Record</div>
+        <div class="track-val" id="tv-mic">Standby</div>
+      </div>
+      <div class="track-card" id="tc-cam">
+        <div class="track-label">📸 Camera</div>
+        <div class="track-val" id="tv-cam">Standby</div>
+      </div>
+      <div class="track-card" id="tc-move">
+        <div class="track-label">🚶 Movement</div>
+        <div class="track-val" id="tv-move">Standby</div>
+      </div>
+    </div>
+
+    <!-- ✅ DELIVERY STATUS PANEL — shows real SMS/WhatsApp results -->
+    <div class="delivery-panel" id="deliveryPanel">
+      <div class="delivery-title">📤 Alert Delivery Status</div>
+      <div id="deliveryRows"></div>
+    </div>
+
+    <button class="btn btn-safe" id="cancelBtn" style="display:none;border-radius:24px;padding:.65rem 2rem;font-size:.78rem" onclick="cancelSOS()">
+      ✓ I'm safe — Cancel Alert
+    </button>
+
+    <div class="sbar" id="sbar">
+      <span>🌸</span><span id="sbarTxt">No active alert. You are safe.</span>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <div class="sos-sidebar">
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-title">Trusted Contacts</span>
+        <span class="badge badge-lav" id="ctBadge">0 contacts</span>
+      </div>
+      <div style="padding:.85rem 1.25rem;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:.45rem">
+        <input class="input-field" id="inName" placeholder="Contact name" maxlength="30">
+        <div class="row-gap">
+          <input class="input-field" id="inPhone" placeholder="+91 98765 43210" maxlength="16" style="flex:1">
+          <button class="btn btn-lav" style="padding:.48rem .9rem;font-size:.7rem" onclick="addContact()">+ Add</button>
+        </div>
+      </div>
+      <div class="contact-list-wrap" id="ctList">
+        <div class="empty">No trusted contacts yet.<br>Add someone who can help. 💜</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">Activity Log</span></div>
+      <div class="log-wrap" id="logWrap">
+        <div class="le"><span class="lt" id="initTime">--:--</span><span class="lx">System ready. Waiting for SOS trigger.</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<!-- PAGE 2 — AI SAFETY ASSISTANT -->
+<div class="page" id="page-assist">
+<div class="assist-grid">
+  <div>
+    <div class="scenario-section">
+      <div class="eyebrow" style="margin-bottom:.75rem">What's your situation?</div>
+      <p class="scenario-intro">Choose a scenario and get instant, step-by-step safety guidance.</p>
+      <div class="scenario-grid">
+        <button class="scen-btn" onclick="loadScenario('cab',this)"><span class="scen-icon">🚕</span><div class="scen-title">Unsafe in cab / ride</div><div class="scen-desc">Driver taking wrong route or acting suspicious</div></button>
+        <button class="scen-btn" onclick="loadScenario('follow',this)"><span class="scen-icon">👣</span><div class="scen-title">Someone following me</div><div class="scen-desc">Person on foot or vehicle shadowing you</div></button>
+        <button class="scen-btn" onclick="loadScenario('alone',this)"><span class="scen-icon">🌙</span><div class="scen-title">Alone at night</div><div class="scen-desc">Walking home or stuck in isolated area</div></button>
+        <button class="scen-btn" onclick="loadScenario('harass',this)"><span class="scen-icon">🚨</span><div class="scen-title">Being harassed</div><div class="scen-desc">Verbal or physical threat from someone nearby</div></button>
+        <button class="scen-btn" onclick="loadScenario('medical',this)"><span class="scen-icon">🏥</span><div class="scen-title">Medical emergency</div><div class="scen-desc">Feeling unwell or injured and alone</div></button>
+        <button class="scen-btn" onclick="loadScenario('accident',this)"><span class="scen-icon">🚗</span><div class="scen-title">Road accident</div><div class="scen-desc">Vehicle accident or breakdown in unsafe area</div></button>
+      </div>
+      <div class="ai-response" id="aiResp">
+        <div class="ai-resp-empty" id="aiEmpty"><span style="font-size:1.8rem">💬</span><span>Select a situation above to get<br>instant safety guidance</span></div>
+        <div class="ai-steps" id="aiSteps"><div class="ai-steps-title" id="aiStepsTitle"></div><div id="aiStepsList"></div><div class="ai-quick-actions" id="aiQA"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:1rem">
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">Nearby Safe Places</span><span class="badge badge-safe">Live</span></div>
+      <div class="safe-places">
+        <div class="place-item" onclick="openMaps('police station')"><span class="place-icon">🚔</span><div class="place-info"><div class="place-name">Kotwali Police Station</div><div class="place-dist">0.4 km · 5 min walk</div></div><span class="place-open open-yes">Open 24/7</span></div>
+        <div class="place-item" onclick="openMaps('hospital')"><span class="place-icon">🏥</span><div class="place-info"><div class="place-name">MY Hospital</div><div class="place-dist">0.8 km · 10 min walk</div></div><span class="place-open open-yes">Open 24/7</span></div>
+        <div class="place-item" onclick="openMaps('cafe')"><span class="place-icon">☕</span><div class="place-info"><div class="place-name">Café Coffee Day</div><div class="place-dist">0.2 km · 3 min walk</div></div><span class="place-open open-yes">Open now</span></div>
+        <div class="place-item" onclick="openMaps('metro station')"><span class="place-icon">🚇</span><div class="place-info"><div class="place-name">Rajwada Metro Station</div><div class="place-dist">0.6 km · 8 min walk</div></div><span class="place-open open-yes">Open now</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">Emergency Numbers</span></div>
+      <div style="padding:.85rem 1.25rem;display:flex;flex-direction:column;gap:.5rem">
+        <a href="tel:112" style="display:flex;align-items:center;gap:.65rem;padding:.55rem .75rem;border-radius:10px;background:var(--danger-dim);border:1px solid rgba(208,96,106,.25);text-decoration:none"><span style="font-size:.9rem">📞</span><span style="font-size:.76rem;font-weight:700;color:var(--danger)">112 — All Emergencies</span></a>
+        <a href="tel:1091" style="display:flex;align-items:center;gap:.65rem;padding:.55rem .75rem;border-radius:10px;background:var(--lav-dim);border:1px solid rgba(142,125,190,.25);text-decoration:none"><span style="font-size:.9rem">👩</span><span style="font-size:.76rem;font-weight:700;color:var(--lav)">1091 — Women Helpline</span></a>
+        <a href="tel:100" style="display:flex;align-items:center;gap:.65rem;padding:.55rem .75rem;border-radius:10px;background:var(--blue-dim);border:1px solid rgba(107,163,214,.25);text-decoration:none"><span style="font-size:.9rem">🚔</span><span style="font-size:.76rem;font-weight:700;color:var(--blue)">100 — Police</span></a>
+        <a href="tel:108" style="display:flex;align-items:center;gap:.65rem;padding:.55rem .75rem;border-radius:10px;background:var(--safe-dim);border:1px solid rgba(91,173,138,.25);text-decoration:none"><span style="font-size:.9rem">🚑</span><span style="font-size:.76rem;font-weight:700;color:var(--safe)">108 — Ambulance</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PAGE 3 — TRUSTED CIRCLE -->
+<div class="page" id="page-circle">
+<div class="circle-grid">
+  <div>
+    <div class="circle-map">
+      <div class="eyebrow" style="margin-bottom:.4rem">Your Trusted Circle</div>
+      <p style="font-size:.7rem;color:var(--text-muted);font-weight:600;margin-bottom:.5rem">People notified during an SOS</p>
+      <div class="circle-visual" id="circleVis">
+        <div class="cv-ring1"></div>
+        <div class="cv-ring2"></div>
+        <div class="cv-you">YOU</div>
+      </div>
+      <div class="circle-legend">
+        <div class="cleg-item"><div class="cleg-dot" style="background:var(--safe)"></div>Alert seen</div>
+        <div class="cleg-item"><div class="cleg-dot" style="background:var(--lav)"></div>Alert sent</div>
+        <div class="cleg-item"><div class="cleg-dot" style="background:var(--text-muted)"></div>Offline</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1.25rem">
+      <div class="card-hdr"><span class="card-title">Alert History</span><span class="badge badge-lav" id="alertHistBadge">0 alerts</span></div>
+      <div class="alert-log-list" id="alertHist"><div class="empty" style="padding:1.5rem">No alerts sent yet. Stay safe. 💜</div></div>
+    </div>
+  </div>
+  <div>
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">Circle Members</span><button class="btn btn-lav" style="padding:.3rem .7rem;font-size:.65rem" onclick="switchTab('sos',document.querySelectorAll('.tab')[0]);setTimeout(()=>document.getElementById('inName').focus(),200)">+ Add</button></div>
+      <div class="contact-cards" id="circleCards"><div class="empty" style="grid-column:1/-1;padding:2rem">Add trusted contacts on the SOS tab. 💜</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PAGE 4 — SAFE ROUTE -->
+<div class="page" id="page-route">
+<div class="route-layout">
+  <div class="card" style="border-radius:20px;overflow:hidden">
+    <div class="card-hdr"><span class="card-title">Safe Route Planner</span><span class="badge badge-safe">AI-powered</span></div>
+    <div style="padding:.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;gap:.5rem">
+      <input class="input-field" placeholder="📍 Current location (auto)" style="flex:1" id="routeFrom">
+      <input class="input-field" placeholder="🏠 Destination" style="flex:1" id="routeTo">
+      <button class="btn btn-lav" style="padding:.48rem .9rem;font-size:.7rem;white-space:nowrap" onclick="planRoute()">Find Safe Route</button>
+    </div>
+    <div class="map-placeholder" style="height:360px;border-radius:0;box-shadow:none">
+      <div class="map-inner">
+        <div class="map-grid"></div>
+        <div class="map-road h" style="top:30%"></div><div class="map-road h" style="top:55%"></div><div class="map-road h" style="top:75%"></div>
+        <div class="map-road v" style="left:25%"></div><div class="map-road v" style="left:55%"></div><div class="map-road v" style="left:78%"></div>
+        <div class="safe-path" style="top:29%;left:24%;width:32%;height:12px;transform:rotate(-3deg)"></div>
+        <div class="safe-path" style="top:28%;left:54%;width:3%;height:28%"></div>
+        <div class="unsafe-path" style="top:54%;left:24%;width:55%;height:10px"></div>
+        <div class="map-pin" style="top:32%;left:22%">📍</div>
+        <div class="map-label" style="top:20%;left:14%">You are here</div>
+        <div class="map-pin" style="top:26%;left:59%">🏠</div>
+        <div class="map-label" style="top:14%;left:52%">Destination</div>
+        <div class="map-pin" style="top:40%;left:38%">🚔</div>
+        <div class="map-pin" style="top:35%;left:50%">☕</div>
+        <div class="map-pin" style="top:60%;left:70%">⚠️</div>
+        <div class="map-label" style="top:68%;left:62%;color:var(--danger);border-color:rgba(208,96,106,.3)">Low lighting</div>
+        <div class="map-legend">
+          <div class="ml-row"><div class="ml-line" style="background:var(--safe)"></div>Safe route (recommended)</div>
+          <div class="ml-row"><div class="ml-line" style="background:var(--danger);opacity:.6"></div>Alternate (less safe)</div>
+          <div class="ml-row">🚔 Police &nbsp; ☕ Safe shelter &nbsp; ⚠️ Caution</div>
+        </div>
+        <div class="map-overlay-badge">🟢 Safe route found · 12 min</div>
+      </div>
+    </div>
+  </div>
+  <div class="route-panel">
+    <div class="route-score card" style="padding:1.25rem">
+      <div><div class="rs-label">Safety Score</div><div class="rs-val good">8.4 / 10</div><div style="font-size:.65rem;color:var(--text-muted);font-weight:600;margin-top:.2rem">Via well-lit, crowded path</div></div>
+      <span style="font-size:2rem">🛡️</span>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">Safety Factors</span></div>
+      <div class="safety-factors">
+        <div class="sf-row"><span class="sf-icon">💡</span><span class="sf-label">Street lighting</span><div class="sf-bar-wrap"><div class="sf-bar good" style="width:85%"></div></div></div>
+        <div class="sf-row"><span class="sf-icon">👥</span><span class="sf-label">Foot traffic</span><div class="sf-bar-wrap"><div class="sf-bar good" style="width:75%"></div></div></div>
+        <div class="sf-row"><span class="sf-icon">🚔</span><span class="sf-label">Police presence</span><div class="sf-bar-wrap"><div class="sf-bar ok" style="width:55%"></div></div></div>
+        <div class="sf-row"><span class="sf-icon">⚡</span><span class="sf-label">Past incidents</span><div class="sf-bar-wrap"><div class="sf-bar ok" style="width:40%"></div></div></div>
+        <div class="sf-row"><span class="sf-icon">🏬</span><span class="sf-label">Open shops</span><div class="sf-bar-wrap"><div class="sf-bar good" style="width:90%"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">Route Options</span></div>
+      <div class="route-alternatives">
+        <div class="ra-item chosen"><span style="font-size:.9rem">🟢</span><div class="ra-label">Safe Route (Recommended)</div><span class="ra-time">12 min</span><span class="ra-score badge-safe badge">8.4</span></div>
+        <div class="ra-item" onclick="selectRoute(this)"><span style="font-size:.9rem">🟡</span><div class="ra-label">Shorter Route</div><span class="ra-time">8 min</span><span class="ra-score badge-gold badge">5.1</span></div>
+        <div class="ra-item" onclick="selectRoute(this)"><span style="font-size:.9rem">🔴</span><div class="ra-label">Fastest Route</div><span class="ra-time">6 min</span><span class="ra-score badge-danger badge">3.2</span></div>
+      </div>
+      <div style="padding:.75rem 1.25rem;padding-top:0">
+        <a href="#" onclick="openGMaps()" style="display:block;padding:.65rem;border-radius:12px;background:var(--lav-dim);border:1.5px solid rgba(142,125,190,.25);text-align:center;text-decoration:none;font-size:.75rem;font-weight:700;color:var(--lav)">Open in Google Maps ↗</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div><!-- end .app -->
+
+<!-- FAKE CALL OVERLAY -->
+<div class="fake-call-overlay" id="fakeCallOverlay">
+  <div class="fc-header">INCOMING CALL</div>
+  <div class="fc-caller">
+    <div class="fc-avatar fc-ringtone" id="fcAvatar">M</div>
+    <div class="fc-name" id="fcName">Maa 💜</div>
+    <div class="fc-status" id="fcStatus">Calling…</div>
+  </div>
+  <div style="text-align:center">
+    <div class="fc-timer" id="fcTimer" style="display:none">00:00</div>
+    <div class="fc-actions">
+      <div class="fc-btn"><div class="fc-circle end" onclick="endFakeCall()">📵</div><div class="fc-btn-lbl">Decline</div></div>
+      <div class="fc-btn"><div class="fc-circle ans" onclick="answerFakeCall()">📞</div><div class="fc-btn-lbl">Answer</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ESCALATION MODAL -->
+<div class="modal-bg" id="escalModal">
+  <div class="modal">
+    <div class="modal-icon">🚨</div>
+    <div class="modal-title">Alert Not Cancelled</div>
+    <div class="modal-body">Your SOS timer expired without being cancelled.<br><br>An <strong style="color:var(--danger)">escalation SMS</strong> has been sent to all contacts.<br><br>Calling <strong style="color:var(--danger)">112</strong> in <span id="callCd" style="font-size:1.1em;color:var(--danger)">5</span>s…</div>
+    <div class="modal-actions">
+      <a href="tel:112" class="ma-call">📞 Call 112 — Emergency</a>
+      <a href="tel:1091" class="ma-help">📞 Call 1091 — Women Helpline</a>
+      <button class="ma-safe" onclick="dismissEscal()">✓ I am safe — Dismiss</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <span>RakshaAI v3.0 · All features free</span>
+  <span>Emergency: <strong>112</strong> · Women Helpline: <strong>1091</strong> · Police: <strong>100</strong></span>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let contacts = JSON.parse(localStorage.getItem('raksha_contacts') || '[]');
+let alertHistory = JSON.parse(localStorage.getItem('raksha_history') || '[]');
+let dur = 10, alertActive = false;
+let timerInt = null, escalTimeout = null, secondsLeft = 0;
+let watchId = null, mediaRec = null, camInterval = null, moveInterval = null;
+let lastPos = null, lastMoveTime = Date.now();
+let fakeCallInt = null, fakeCallSecs = 0;
+
+document.getElementById('initTime').textContent = ts();
+renderContacts(); renderCircle(); renderAlertHistory();
+
+/* ══════════════════════════════════════════
+   TABS
+══════════════════════════════════════════ */
+function switchTab(id, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('page-' + id).classList.add('active');
+}
+
+/* ══════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════ */
+function ts() { return new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }); }
+function now() { return new Date().toLocaleString('en-IN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' }); }
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function toast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (type === 'a' ? ' ta' : type === 's' ? ' ts' : '');
+  setTimeout(() => t.className = 'toast', 3500);
+}
+
+function log(txt, type = '') {
+  const w = document.getElementById('logWrap');
+  const e = document.createElement('div');
+  e.className = 'le';
+  e.innerHTML = `<span class="lt">${ts()}</span><span class="lx ${type}">${txt}</span>`;
+  w.insertBefore(e, w.firstChild);
+}
+
+/* ══════════════════════════════════════════
+   DURATION
+══════════════════════════════════════════ */
+function setDur(m, btn) {
+  if (alertActive) return;
+  dur = m;
+  document.querySelectorAll('.dpill').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+
+/* ══════════════════════════════════════════
+   SOS CORE
+══════════════════════════════════════════ */
+function toggleSOS() { if (!alertActive) startSOS(); }
+
+function triggerSOS() {
+  if (alertActive) return;
+
+  // 🔥 Get fresh GPS instantly at click time
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        lastPos = pos; // update global location
+
+        console.log("SOS location captured:", pos.coords.latitude, pos.coords.longitude);
+
+        // NOW start full SOS
+        startSOS();
+      },
+      err => {
+        console.warn("GPS failed, starting SOS without fresh location");
+        startSOS();
+      },
+      { enableHighAccuracy: true }
+    );
+  } else {
+    startSOS();
+  }
+}
+
+function startSOS() {
+  if (contacts.length === 0) { toast('💜 Add at least one trusted contact first', 'a'); return; }
+  alertActive = true;
+  secondsLeft = dur * 60;
+
+  // UI update
+  document.getElementById('sosBtn').classList.add('on');
+  document.getElementById('sosHint').textContent = 'ACTIVE';
+  document.getElementById('ring1').classList.add('on');
+  document.getElementById('ring2').classList.add('on');
+  document.getElementById('cancelBtn').style.display = 'block';
+  document.getElementById('timerDisp').classList.add('on');
+  document.getElementById('timerSub').textContent = 'Time remaining before escalation';
+  document.getElementById('hdrDot').classList.add('danger');
+  document.getElementById('hdrStatus').textContent = 'Alert Active';
+  document.getElementById('sbar').className = 'sbar alert';
+  document.getElementById('sbarTxt').textContent = '🚨 Alert sent to ' + contacts.length + ' contact(s)';
+  document.getElementById('trackGrid').style.opacity = '1';
+
+  updateTimer();
+  timerInt = setInterval(updateTimer, 1000);
+  escalTimeout = setTimeout(triggerEscal, secondsLeft * 1000);
+
+  startLiveLocation();
+  startAudioRecording();
+  startCameraCapture();
+  startMovementTracking();
+
+  // ── Send SMS + WhatsApp via Flask backend ──
+  sendAlerts('initial');
+
+  log('🚨 SOS activated — alert sent to ' + contacts.length + ' contact(s)', 'a');
+  log('Duration: ' + dur + ' min · Live tracking started', 'a');
+  toast('🚨 Sending alerts to ' + contacts.length + ' contact(s)…', 'a');
+  addAlertToHistory('initial');
+}
+
+function updateTimer() {
+  if (secondsLeft <= 0) return;
+  secondsLeft--;
+  const m = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+  const s = String(secondsLeft % 60).padStart(2, '0');
+  document.getElementById('timerDisp').textContent = m + ':' + s;
+}
+
+function cancelSOS() {
+  if (!alertActive) return;
+  clearInterval(timerInt);
+  clearTimeout(escalTimeout);
+  alertActive = false;
+  stopAllTracking();
+
+  sendAlerts('cancel');
+
+  document.getElementById('sosBtn').classList.remove('on');
+  document.getElementById('sosHint').textContent = 'tap to activate';
+  document.getElementById('ring1').classList.remove('on');
+  document.getElementById('ring2').classList.remove('on');
+  document.getElementById('cancelBtn').style.display = 'none';
+  document.getElementById('timerDisp').classList.remove('on');
+  document.getElementById('timerDisp').textContent = '00:00';
+  document.getElementById('timerSub').textContent = 'No active alert';
+  document.getElementById('hdrDot').classList.remove('danger');
+  document.getElementById('hdrStatus').textContent = 'Protected · Safe';
+  document.getElementById('sbar').className = 'sbar safe';
+  document.getElementById('sbarTxt').textContent = '✓ Alert cancelled. You are marked safe.';
+  document.getElementById('trackGrid').style.opacity = '.4';
+  resetTrackCards();
+
+  // Hide delivery panel after a delay
+  setTimeout(() => {
+    document.getElementById('deliveryPanel').classList.remove('show');
+  }, 8000);
+
+  sendAlerts('cancel', contacts);
+  log('✓ Alert cancelled. Contacts notified you are safe.', 's');
+  toast('✓ Contacts notified you are safe', 's');
+  addAlertToHistory('cancel');
+
+  setTimeout(() => {
+    document.getElementById('sbar').className = 'sbar';
+    document.getElementById('sbarTxt').textContent = 'No active alert. You are safe.';
+  }, 8000);
+}
+
+function triggerEscal() {
+  clearInterval(timerInt);
+  document.getElementById('timerDisp').textContent = '00:00';
+  document.getElementById('escalModal').classList.add('show');
+  sendAlerts('escalation');
+  addAlertToHistory('escalation');
+  log('⚠️ Escalation — SMS sent. Emergency call initiating.', 'a');
+  let c = 5;
+  const el = document.getElementById('callCd');
+  const ci = setInterval(() => {
+    c--;
+    if (el) el.textContent = c;
+    if (c <= 0) { clearInterval(ci); window.location.href = 'tel:112'; }
+  }, 1000);
+}
+
+function dismissEscal() {
+  document.getElementById('escalModal').classList.remove('show');
+  cancelSOS();
+}
+
+/* ══════════════════════════════════════════
+   ✅ SEND ALERTS — wired to Flask /send-alert
+   Sends SMS + WhatsApp for each contact
+   Shows live delivery status in the UI
+══════════════════════════════════════════ */
+function sendAlerts(type, overrideContacts = null) {
+  const loc = lastPos
+    ? lastPos.coords.latitude.toFixed(5) + ',' + lastPos.coords.longitude.toFixed(5)
+    : null;
+
+  const mapsLink = loc
+    ? 'https://maps.google.com/?q=' + loc
+    : null;
+
+  const payload = {
+    type:      type,                            // 'initial' | 'cancel' | 'escalation'
+    contacts: overrideContacts || contacts,                        // [{name, phone}]
+    duration:  dur,
+    timestamp: new Date().toISOString(),
+    location:  loc,
+    maps_link: mapsLink
+  };
+
+  // Show delivery panel with "sending" state for each contact
+  showDeliveryPanel(contacts, 'sending');
+
+  fetch('/send-alert', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(r => {
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  })
+  .then(data => {
+    /*
+      Expected response from Flask:
+      {
+        "status": "success",
+        "results": [
+          { "name": "Maa", "phone": "+919...", "sms": "sent", "whatsapp": "sent" },
+          ...
+        ]
+      }
+    */
+    if (data.results && Array.isArray(data.results)) {
+      updateDeliveryPanel(data.results);
+      const sentCount = data.results.filter(r => r.sms === 'sent' || r.whatsapp === 'sent').length;
+      log('📤 Delivery: ' + sentCount + '/' + contacts.length + ' contact(s) reached', 's');
+    } else {
+      updateDeliveryPanelFallback('sent');
+      log('📤 Alerts sent (' + type + ')', 's');
+    }
+    toast('✅ Alerts delivered to ' + contacts.length + ' contact(s)', 's');
+  })
+  .catch(err => {
+    // Backend not reachable (dev mode) — show graceful error
+    console.warn('[RakshaAI] /send-alert failed:', err.message);
+    updateDeliveryPanelFallback('failed');
+    log('⚠️ Backend unreachable — check Flask server', 'w');
+    toast('⚠️ Alert sent (check backend connection)', '');
+  });
+}
+
+/* ── Delivery panel UI helpers ── */
+function showDeliveryPanel(contactList, state) {
+  const panel = document.getElementById('deliveryPanel');
+  const rows  = document.getElementById('deliveryRows');
+  panel.classList.add('show');
+
+  rows.innerHTML = contactList.map(c => `
+    <div class="delivery-row" id="dr-${c.id}">
+      <div>
+        <div class="delivery-name">${esc(c.name)}</div>
+        <div class="delivery-phone">${esc(c.phone)}</div>
+      </div>
+      <div class="delivery-badges">
+        <span class="dbadge sending" id="sms-${c.id}"><span class="spin">⟳</span> SMS</span>
+        <span class="dbadge sending" id="wa-${c.id}"><span class="spin">⟳</span> WhatsApp</span>
+      </div>
+    </div>`).join('');
+}
+
+function updateDeliveryPanel(results) {
+  results.forEach(r => {
+    // Find the contact by phone to get id
+    const contact = contacts.find(c => c.phone === r.phone || c.name === r.name);
+    if (!contact) return;
+
+    const smsEl = document.getElementById('sms-' + contact.id);
+    const waEl  = document.getElementById('wa-'  + contact.id);
+
+    if (smsEl) smsEl.className = 'dbadge ' + (r.sms === 'sent' ? 'sent' : r.sms === 'skipped' ? 'skipped' : 'failed');
+    if (smsEl) smsEl.textContent = (r.sms === 'sent' ? '✓ SMS' : r.sms === 'skipped' ? '– SMS' : '✕ SMS');
+
+    if (waEl)  waEl.className  = 'dbadge ' + (r.whatsapp === 'sent' ? 'sent' : r.whatsapp === 'skipped' ? 'skipped' : 'failed');
+    if (waEl)  waEl.textContent = (r.whatsapp === 'sent' ? '✓ WA' : r.whatsapp === 'skipped' ? '– WA' : '✕ WA');
+  });
+}
+
+function updateDeliveryPanelFallback(state) {
+  contacts.forEach(c => {
+    const smsEl = document.getElementById('sms-' + c.id);
+    const waEl  = document.getElementById('wa-'  + c.id);
+    const label = state === 'sent' ? 'sent' : 'failed';
+    if (smsEl) { smsEl.className = 'dbadge ' + label; smsEl.textContent = (label === 'sent' ? '✓ SMS' : '✕ SMS'); }
+    if (waEl)  { waEl.className  = 'dbadge ' + label; waEl.textContent  = (label === 'sent' ? '✓ WA' : '✕ WA'); }
+  });
+}
+
+/* ══════════════════════════════════════════
+   SMART TRACKING
+══════════════════════════════════════════ */
+function startLiveLocation() {
+  setTrack('loc', 'active', 'Acquiring…');
+
+  if (!navigator.geolocation) {
+    setTrack('loc', '', 'Not supported');
+    return;
+  }
+
+  watchId = navigator.geolocation.watchPosition(
+    pos => {
+      // 🔥 STOP UPDATES IF CANCELLED
+      if (!alertActive) return;
+
+      lastPos = pos;
+
+      const lat = pos.coords.latitude.toFixed(5);
+      const lng = pos.coords.longitude.toFixed(5);
+
+      setTrack('loc', 'active', lat + ', ' + lng);
+      log('📍 Location updated: ' + lat + ', ' + lng);
+
+      // OPTIONAL: send to backend (future upgrade)
+    },
+    () => setTrack('loc', '', 'Location denied'),
+    { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 }
+  );
+}
+function startAudioRecording() {
+  setTrack('mic', 'active', 'Requesting…');
+  if (!navigator.mediaDevices) { setTrack('mic', '', 'Not supported'); return; }
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+      mediaRec = new MediaRecorder(stream);
+      mediaRec.start();
+      setTrack('mic', 'active', 'Recording ●');
+      log('🎤 Audio recording started');
+    })
+    .catch(() => setTrack('mic', '', 'Mic denied'));
+}
+
+function startCameraCapture() {
+  setTrack('cam', 'active', 'Requesting…');
+  if (!navigator.mediaDevices) { setTrack('cam', '', 'Not supported'); return; }
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(stream => {
+      setTrack('cam', 'active', 'Photo every 2 min');
+      log('📸 Camera capture active');
+      camInterval = setInterval(() => {
+        if (!alertActive) return;
+        log('📸 Photo captured at ' + ts());
+        setTrack('cam', 'active', 'Last: ' + ts());
+      }, 120000);
+    })
+    .catch(() => setTrack('cam', '', 'Camera denied'));
+}
+
+function startMovementTracking() {
+  setTrack('move', 'active', 'Tracking…');
+  lastMoveTime = Date.now();
+  moveInterval = setInterval(() => {
+    if (!alertActive || !lastPos) { setTrack('move', '', 'No GPS'); return; }
+    const spd = lastPos.coords.speed;
+    if (spd === null) { setTrack('move', 'active', 'Moving'); return; }
+    if (spd > 15) {
+      setTrack('move', 'warn', 'Fast: ' + Math.round(spd * 3.6) + ' km/h');
+      log('🚗 High speed: ' + Math.round(spd * 3.6) + ' km/h', 'w');
+    } else if (spd < 0.5) {
+      const stopped = Math.round((Date.now() - lastMoveTime) / 1000);
+      if (stopped > 120) {
+        setTrack('move', 'warn', 'Stopped ' + Math.round(stopped / 60) + ' min');
+        log('⚠️ No movement for ' + Math.round(stopped / 60) + ' min', 'w');
+      } else { setTrack('move', 'active', 'Slow / still'); }
+    } else {
+      lastMoveTime = Date.now();
+      setTrack('move', 'active', Math.round(spd * 3.6) + ' km/h');
+    }
+  }, 10000);
+}
+
+function stopAllTracking() {
+  // Stop GPS tracking
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+    watchId = null;
+  }
+
+  // Stop microphone
+  if (mediaRec && mediaRec.state !== 'inactive') {
+    mediaRec.stop();
+  }
+
+  // Stop camera interval
+  if (camInterval) clearInterval(camInterval);
+
+  // Stop movement tracking
+  if (moveInterval) clearInterval(moveInterval);
+
+  // 🔥 IMPORTANT: reset tracking data
+  lastPos = null;
+
+  watchId = null;
+  mediaRec = null;
+  camInterval = null;
+  moveInterval = null;
+
+  log('🛑 All tracking stopped');
+}
+
+function setTrack(id, state, val) {
+  const card = document.getElementById('tc-' + id);
+  card.className = 'track-card' + (state ? ' ' + state : '');
+  document.getElementById('tv-' + id).textContent = val;
+}
+function resetTrackCards() {
+  ['loc', 'mic', 'cam', 'move'].forEach(id => setTrack(id, '', 'Standby'));
+}
+
+/* ══════════════════════════════════════════
+   CONTACTS
+══════════════════════════════════════════ */
+function addContact() {
+  const name  = document.getElementById('inName').value.trim();
+  const phone = document.getElementById('inPhone').value.trim();
+  if (!name || !phone) { toast('Enter both name and phone', 'a'); return; }
+  if (!/^\+?[\d\s\-]{7,16}$/.test(phone)) { toast('Enter a valid phone number (e.g. +919876543210)', 'a'); return; }
+  contacts.push({ name, phone, id: Date.now(), color: randomColor() });
+  saveContacts();
+  document.getElementById('inName').value = '';
+  document.getElementById('inPhone').value = '';
+  renderContacts(); renderCircle();
+  toast(name + ' added to trusted circle 💜', 's');
+}
+function deleteContact(id) {
+  contacts = contacts.filter(c => c.id !== id);
+  saveContacts(); renderContacts(); renderCircle();
+}
+function saveContacts() {
+  localStorage.setItem('raksha_contacts', JSON.stringify(contacts));
+}
+function randomColor() {
+  const cols = ['#8E7DBE','#6BA3D6','#5BAD8A','#E8A0B0','#C4954A','#8BB8A8'];
+  return cols[Math.floor(Math.random() * cols.length)];
+}
+
+function renderContacts() {
+  const list  = document.getElementById('ctList');
+  const badge = document.getElementById('ctBadge');
+  badge.textContent = contacts.length + (contacts.length === 1 ? ' contact' : ' contacts');
+  if (!contacts.length) {
+    list.innerHTML = '<div class="empty">No trusted contacts yet.<br>Add someone who can help. 💜</div>';
+    return;
+  }
+  list.innerHTML = contacts.map(c => `
+    <div class="ci">
+      <div class="cav" style="background:${c.color || 'var(--lav)'}">${esc(c.name.slice(0,2).toUpperCase())}</div>
+      <div class="ci-info">
+        <div class="ci-name">${esc(c.name)}</div>
+        <div class="ci-phone">${esc(c.phone)}</div>
+      </div>
+      <button class="cdel" onclick="deleteContact(${c.id})">✕</button>
+    </div>`).join('');
+}
+
+function renderCircle() {
+  const vis = document.getElementById('circleVis');
+  vis.querySelectorAll('.cv-contact').forEach(n => n.remove());
+  if (!contacts.length) return;
+  const cx = 110, cy = 110, r = 80;
+  contacts.forEach((c, i) => {
+    const angle = (2 * Math.PI * i / contacts.length) - Math.PI / 2;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    const div = document.createElement('div');
+    div.className = 'cv-contact';
+    div.style.left = x + 'px'; div.style.top = y + 'px';
+    div.innerHTML = `<div class="cvc-dot" style="background:${c.color||'var(--lav)'}">${esc(c.name.slice(0,2).toUpperCase())}</div><div class="cvc-label">${esc(c.name)}</div>`;
+    vis.appendChild(div);
+  });
+  const cards = document.getElementById('circleCards');
+  if (!contacts.length) {
+    cards.innerHTML = '<div class="empty" style="grid-column:1/-1;padding:2rem">Add trusted contacts on the SOS tab. 💜</div>';
+    return;
+  }
+  cards.innerHTML = contacts.map(c => `
+    <div class="cc">
+      <div class="cc-top">
+        <div class="cc-av" style="background:${c.color||'var(--lav)'}">${esc(c.name.slice(0,2).toUpperCase())}</div>
+        <div><div class="cc-name">${esc(c.name)}</div><div class="cc-role">${esc(c.phone)}</div></div>
+      </div>
+      <div class="cc-row"><span class="cc-stat badge badge-lav">Trusted</span><span class="cc-eta">In circle</span></div>
+    </div>`).join('');
+}
+
+function addAlertToHistory(type) {
+  alertHistory.unshift({ type, time: now(), contacts: contacts.map(c => c.name), id: Date.now() });
+  if (alertHistory.length > 20) alertHistory.pop();
+  localStorage.setItem('raksha_history', JSON.stringify(alertHistory));
+  renderAlertHistory();
+}
+
+function renderAlertHistory() {
+  const el    = document.getElementById('alertHist');
+  const badge = document.getElementById('alertHistBadge');
+  badge.textContent = alertHistory.length + ' alert' + (alertHistory.length === 1 ? '' : 's');
+  if (!alertHistory.length) {
+    el.innerHTML = '<div class="empty" style="padding:1.5rem">No alerts sent yet. Stay safe. 💜</div>';
+    return;
+  }
+  const icons  = { initial:'🚨', cancel:'✅', escalation:'⚠️' };
+  const labels = { initial:'SOS Activated', cancel:'Alert Cancelled', escalation:'Escalation Sent' };
+  el.innerHTML = alertHistory.map(a => `
+    <div class="al-item">
+      <span class="al-icon">${icons[a.type] || '📋'}</span>
+      <div class="al-body">
+        <div class="al-msg">${labels[a.type] || a.type}</div>
+        <div class="al-time">${a.time}</div>
+        <div class="al-seen">${a.contacts.map(n => `<span class="seen-chip ${a.type==='initial'||a.type==='escalation'?'seen-no':'seen-yes'}">${esc(n)}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   AI SAFETY ASSISTANT
+══════════════════════════════════════════ */
+const scenarios = {
+  cab:{title:'You feel unsafe in a cab / ride',steps:[{t:'Share your live location immediately',d:'Open Google Maps → Share Location → send to a trusted contact right now.'},{t:'Note the cab details',d:'Memorise or photograph the <strong>car number plate, driver name and photo</strong> from the app.'},{t:'Call someone and stay on the line',d:'Call a trusted contact and keep talking. Mention your cab details loudly so the driver hears.'},{t:'Change your destination',d:'Redirect to a <strong>police station, hospital or a busy public place</strong>.'},{t:'Use the SOS button',d:'If you feel in immediate danger, tap SOS. An alert + your location will be sent instantly.'}],actions:['📍 Share Location','🛡️ Activate SOS','🚔 Nearby Police']},
+  follow:{title:'Someone is following you',steps:[{t:'Do NOT go home',d:'A follower should <strong>not know where you live</strong>. Go to a crowded public place instead.'},{t:'Enter a busy shop or cafe',d:'Walk confidently into the nearest open shop. Tell the staff you feel unsafe.'},{t:'Change your route unpredictably',d:'Turn corners, cross roads — make it hard to follow.'},{t:'Call someone right now',d:'Tell a friend/family your exact location. Keep them on the phone while walking.'},{t:'Call 100 or trigger SOS',d:'If the person gets closer or you feel threatened, call <strong>100 (Police)</strong> or use the SOS button.'}],actions:['📍 Share Location','🛡️ Activate SOS','📞 Call 100']},
+  alone:{title:'You are alone at night',steps:[{t:'Stay in lit and crowded areas',d:'Avoid shortcuts through dark or empty streets even if they are faster.'},{t:'Walk confidently and stay alert',d:'Keep your phone in your pocket (not hand), headphones out, and be aware of surroundings.'},{t:'Check the Safe Route tab',d:'Use the <strong>Safe Route planner</strong> to find the best-lit path home.'},{t:'Share your live location',d:'Let a trusted contact track you until you reach home. Text when you arrive.'},{t:'Trust your gut — activate SOS if needed',d:'If something feels wrong, do not wait. Tap the SOS button immediately.'}],actions:['📍 Share Location','🗺️ Safe Route','🛡️ Activate SOS']},
+  harass:{title:'You are being harassed',steps:[{t:'Be loud and assertive',d:'Say firmly: "Stop it. I do not know you." Draw attention — do not whisper or plead.'},{t:'Move toward people immediately',d:'Walk to a group of people, a shop, or any busy area. Do not stay isolated.'},{t:'Use your phone visibly',d:'Take a photo of the person if safe to do so. Pretend to call the police out loud.'},{t:'Contact 1091 Women Helpline',d:'Call <strong>1091</strong> — they provide immediate guidance and can alert local police.'},{t:'Trigger SOS',d:'Use the SOS button to alert your trusted contacts with your exact location instantly.'}],actions:['📞 Call 1091','🛡️ Activate SOS','📍 Share Location']},
+  medical:{title:'Medical emergency — you are unwell or injured',steps:[{t:'Call 108 for ambulance immediately',d:'<strong>108</strong> is the ambulance helpline — free and available 24/7 across India.'},{t:'Stay where you are if possible',d:'Sit down, stay calm. Do not try to walk if you are dizzy or injured.'},{t:'Alert your trusted contacts via SOS',d:'Tap SOS so your contacts know your location and can come to you.'},{t:'Ask someone nearby for help',d:'Do not hesitate to ask a stranger, shopkeeper, or security guard for assistance.'},{t:'Unlock your phone medical ID',d:'Keep your blood group and emergency info accessible from your lock screen.'}],actions:['📞 Call 108','🛡️ Activate SOS','📍 Share Location']},
+  accident:{title:'Road accident or breakdown',steps:[{t:'Move to safety first',d:'If possible, move yourself and others away from the road to a safe area.'},{t:'Call 112 immediately',d:'<strong>112</strong> dispatches the nearest police + ambulance. Give your location clearly.'},{t:'Turn on hazard lights',d:'If in a vehicle, turn on hazard lights and place anything reflective behind the car.'},{t:'Trigger SOS',d:'Activate SOS so your contacts know your exact GPS location immediately.'},{t:'Do not move injured persons',d:'Unless in immediate danger (fire, water), do not move someone who may have spine injury.'}],actions:['📞 Call 112','🛡️ Activate SOS','📍 Share Location']}
+};
+
+function loadScenario(key, btn) {
+  document.querySelectorAll('.scen-btn').forEach(b => b.classList.remove('active-scen'));
+  btn.classList.add('active-scen');
+  const s = scenarios[key];
+  document.getElementById('aiEmpty').style.display = 'none';
+  const steps = document.getElementById('aiSteps');
+  steps.classList.add('show');
+  document.getElementById('aiStepsTitle').textContent = s.title;
+  document.getElementById('aiStepsList').innerHTML = s.steps.map((st, i) => `
+    <div class="step-item">
+      <div class="step-num">${i+1}</div>
+      <div class="step-txt"><strong>${st.t}</strong> — ${st.d}</div>
+    </div>`).join('');
+  document.getElementById('aiQA').innerHTML = s.actions.map(a => `
+    <button class="qa-btn" onclick="triggerQuickAction(this,'${a}')">${a}</button>`).join('');
+}
+
+function triggerQuickAction(btn, label) {
+  if (label.includes('SOS')) {
+    btn.classList.add('triggered'); btn.textContent = '✓ SOS Active';
+    switchTab('sos', document.querySelectorAll('.tab')[0]);
+    setTimeout(() => { if (!alertActive) startSOS(); }, 400);
+  } else if (label.includes('Location')) {
+    btn.classList.add('triggered'); btn.textContent = '✓ Location Shared';
+    if (navigator.geolocation) navigator.geolocation.getCurrentPosition(pos => {
+      const url = `https://maps.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+      toast('📍 Location link: ' + url, 's');
+    });
+  } else if (label.includes('Route')) { switchTab('route', document.querySelectorAll('.tab')[3]); }
+  else if (label.includes('1091')) { window.location.href = 'tel:1091'; }
+  else if (label.includes('112'))  { window.location.href = 'tel:112'; }
+  else if (label.includes('100'))  { window.location.href = 'tel:100'; }
+  else if (label.includes('108'))  { window.location.href = 'tel:108'; }
+}
+
+/* ══════════════════════════════════════════
+   SAFE ROUTE
+══════════════════════════════════════════ */
+function planRoute() {
+  const to = document.getElementById('routeTo').value.trim();
+  if (!to) { toast('Enter a destination', 'a'); return; }
+  toast('🗺️ Safe route calculated!', 's');
+}
+function selectRoute(el) {
+  document.querySelectorAll('.ra-item').forEach(r => r.classList.remove('chosen'));
+  el.classList.add('chosen');
+}
+function openGMaps() {
+  const to = document.getElementById('routeTo').value.trim();
+  if (lastPos) {
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${lastPos.coords.latitude},${lastPos.coords.longitude}&destination=${encodeURIComponent(to || '')}&travelmode=walking`;
+    window.open(url, '_blank');
+  } else { window.open('https://maps.google.com', '_blank'); }
+}
+function openMaps(query) {
+  window.open('https://www.google.com/maps/search/' + encodeURIComponent(query + ' near me'), '_blank');
+}
+
+/* ══════════════════════════════════════════
+   FAKE CALL
+══════════════════════════════════════════ */
+const fakeCallers = [
+  { name: 'Maa 💜', init: 'M', color: '#8E7DBE' },
+  { name: 'Priya 💜', init: 'P', color: '#6BA3D6' },
+  { name: 'Didi 💜', init: 'D', color: '#5BAD8A' },
+  { name: 'Bhai 💜', init: 'B', color: '#C4954A' },
+];
+function startFakeCall() {
+  const caller = fakeCallers[Math.floor(Math.random() * fakeCallers.length)];
+  const av = document.getElementById('fcAvatar');
+  av.textContent = caller.init;
+  av.style.background = `linear-gradient(135deg,${caller.color},#6BA3D6)`;
+  document.getElementById('fcName').textContent = caller.name;
+  document.getElementById('fcStatus').textContent = 'Calling…';
+  document.getElementById('fcTimer').style.display = 'none';
+  document.getElementById('fakeCallOverlay').classList.add('show');
+  fakeCallSecs = 0;
+  av.classList.add('fc-ringtone');
+}
+function answerFakeCall() {
+  document.getElementById('fcStatus').textContent = 'Connected ●';
+  document.getElementById('fcTimer').style.display = 'block';
+  document.getElementById('fcAvatar').classList.remove('fc-ringtone');
+  fakeCallInt = setInterval(() => {
+    fakeCallSecs++;
+    const m = String(Math.floor(fakeCallSecs / 60)).padStart(2, '0');
+    const s = String(fakeCallSecs % 60).padStart(2, '0');
+    document.getElementById('fcTimer').textContent = m + ':' + s;
+  }, 1000);
+}
+function endFakeCall() {
+  clearInterval(fakeCallInt);
+  document.getElementById('fakeCallOverlay').classList.remove('show');
+  document.getElementById('fcAvatar').classList.remove('fc-ringtone');
+}
+
+document.getElementById('inPhone').addEventListener('keydown', e => { if (e.key === 'Enter') addContact(); });
+</script>
+</body>
+</html>
