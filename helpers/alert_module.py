@@ -1,60 +1,74 @@
-
-
 import os
+from twilio.rest import Client
+from dotenv import load_dotenv
 
-# ── Load .env if available ─────────────────────────────────────────────────────
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
-    pass
-
-TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID", "")
-TWILIO_AUTH_TOKEN  = os.environ.get("TWILIO_AUTH_TOKEN", "")
-TWILIO_FROM_NUMBER = os.environ.get("TWILIO_FROM_NUMBER", "")
+# ── Load .env explicitly so it works when imported as a module ──
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
 
 
-def send_sms_alert(to_number: str, message: str) -> str:
-    if not all([TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER]):
-        print(f"[alert_module] Twilio not configured. Would have sent to {to_number}:\n{message}")
-        return "skipped"
+def get_client():
+    sid   = os.getenv("TWILIO_ACCOUNT_SID", "").strip()
+    token = os.getenv("TWILIO_AUTH_TOKEN", "").strip()
 
+    if not sid or not token:
+        raise ValueError("❌ TWILIO_ACCOUNT_SID or TWILIO_AUTH_TOKEN is missing from .env")
+
+    return Client(sid, token)
+
+
+def send_sms_alert(to, message):
     try:
-        from twilio.rest import Client
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        client    = get_client()
+        from_num  = os.getenv("TWILIO_SMS_FROM", "").strip()
 
-        if not to_number.startswith("+"):
-            to_number = "+" + to_number.replace(" ", "").replace("-", "")
+        if not from_num:
+            print("❌ TWILIO_SMS_FROM is not set in .env")
+            return "failed"
+
+        print(f"📤 SMS  → TO: {to}  FROM: {from_num}")
 
         msg = client.messages.create(
             body=message,
-            from_=TWILIO_FROM_NUMBER,
-            to=to_number
+            from_='whatsapp:+14155238886',
+            to=f'whatsapp:{+919382868507}'
         )
-        print(f"[alert_module] SMS sent to {to_number} → SID: {msg.sid}")
+
+        print(f"✅ SMS sent! SID: {msg.sid}  Status: {msg.status}")
         return "sent"
 
     except Exception as e:
-        print(f"[alert_module] Failed to send SMS to {to_number}: {e}")
+        print(f"❌ SMS Error: {e}")
         return "failed"
 
 
-def send_whatsapp_alert(to_number: str, message: str) -> str:
-    if not all([TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_FROM_NUMBER]):
-        print(f"[alert_module] Twilio not configured for WhatsApp.")
-        return "skipped"
-
+def send_whatsapp_alert(to, message):
+    """
+    Twilio WhatsApp Sandbox: recipient must first send
+    'join <sandbox-keyword>' to whatsapp:+14155238886
+    before they can receive messages.
+    """
     try:
-        from twilio.rest import Client
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        client  = get_client()
+        wa_from = os.getenv("TWILIO_WA_FROM", "").strip()
 
-        wa_from = "whatsapp:+14155238886"
-        wa_to   = f"whatsapp:+{to_number.lstrip('+')}"
+        if not wa_from:
+            print("❌ TWILIO_WA_FROM is not set in .env")
+            return "failed"
 
-        msg = client.messages.create(body=message, from_=wa_from, to=wa_to)
-        print(f"[alert_module] WhatsApp sent to {to_number} → SID: {msg.sid}")
+        # Ensure 'whatsapp:' prefix on destination
+        wa_to = to if to.startswith("whatsapp:") else f"whatsapp:{to}"
+
+        print(f"📲 WA   → TO: {wa_to}  FROM: {wa_from}")
+
+        msg = client.messages.create(
+            body=message,
+            from_='+19784045160',
+            to='+919382868507'
+        )
+
+        print(f"✅ WhatsApp sent! SID: {msg.sid}  Status: {msg.status}")
         return "sent"
 
     except Exception as e:
-        print(f"[alert_module] WhatsApp failed for {to_number}: {e}")
+        print(f"❌ WhatsApp Error: {e}")
         return "failed"
